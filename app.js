@@ -9,6 +9,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 const PORT = process.env.PORT;
 
+//create connection pool
 var pool = mysql.createPool({
     host: process.env.MYSQL_SERVER,
     port: process.env.MYSQL_PORT,
@@ -18,12 +19,12 @@ var pool = mysql.createPool({
     connectionLimit:process.env.MYSQL_CONNECTION
 })
 
+//get connection
 pool.getConnection((err, conn)=>{
     if(err){
-        
         return;
     }
-    
+    //list out the query
     app.get('/users', (req,res)=>{
         conn.query("SELECT * FROM USER", (err, result)=>{
             if(err){
